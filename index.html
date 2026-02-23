@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Courier Tracking Portal</title>
+  <meta name="description" content="Track your Delhivery, Blue Dart, DTDC and other courier shipments easily.">
+</head>
+<body style="font-family: Arial; text-align:center; padding:40px;">
+
+<h1>Track Your Courier</h1>
+
+<select id="carrier">
+  <option value="delhivery">Delhivery</option>
+  <option value="bluedart">Blue Dart</option>
+  <option value="dtdc">DTDC</option>
+</select>
+
+<br><br>
+
+<input type="text" id="tracking" placeholder="Enter Tracking Number" style="padding:10px; width:250px;">
+
+<br><br>
+
+<button onclick="track()" style="padding:10px 20px;">Track</button>
+
+<script>
+function track() {
+  var carrier = document.getElementById("carrier").value;
+  var tracking = document.getElementById("tracking").value;
+
+  if(carrier === "delhivery") {
+    window.open("https://www.delhivery.com/track/package/" + tracking);
+  }
+
+  if(carrier === "bluedart") {
+    window.open("https://www.bluedart.com/tracking?tracking_number=" + tracking);
+  }
+
+  if(carrier === "dtdc") {
+    window.open("https://www.dtdc.in/tracking/tracking_results.asp?strCnno=" + tracking);
+  }
+}
+</script>
+
+</body>
+</html>
