@@ -1,65 +1,96 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Multi-Courier Tracking Portal</title>
-  <meta name="description" content="Track Delhivery, Blue Dart, DTDC, Ekart, XpressBees, DHL and more courier shipments online.">
+  <title>Multi-Courier Tracking Portal (Redirect)</title>
+  <meta name="description" content="Track your shipments by selecting courier and entering tracking number. Redirects to official courier tracking pages.">
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 40px; }
+    input, select, button { padding: 10px; font-size: 16px; margin-top: 10px; }
+    button { cursor: pointer; }
+  </style>
 </head>
-<body style="font-family: Arial; text-align:center; padding:40px;">
+<body>
 
-<h1>Multi-Courier Tracking Portal</h1>
-<p>Select your courier and enter tracking number:</p>
+  <h1>Multi-Courier Tracking Portal</h1>
+  <p>Select your courier and enter tracking number:</p>
 
-<select id="courier">
-  <option value="delhivery">Delhivery</option>
-  <option value="bluedart">Blue Dart</option>
-  <option value="dtdc">DTDC</option>
-  <option value="ekart">Ekart</option>
-  <option value="xpressbees">XpressBees</option>
-  <option value="dhl">DHL</option>
-  <option value="fedex">FedEx</option>
-  <option value="ups">UPS</option>
-  <option value="trackon">Trackon</option>
-  <option value="tci_express">TCI Express</option>
-  <option value="tci_freight">TCI Freight</option>
-  <option value="avinash_cargo">Avinash Cargo Pvt Ltd</option>
-  <option value="st_courier">ST Courier</option>
-  <option value="shree_maruti">Shree Maruti</option>
-  <option value="mark_express">Mark Express</option>
-  <option value="shree_nandawana">Shree Nandawana Transport</option>
-  <option value="shadowfax">Shadowfax</option>
-  <option value="allcargo">Allcargo Logistics</option>
-  <option value="navata">Navata Road Transport</option>
-  <option value="agarwal_packers">Agarwal Packers and Movers</option>
-  <option value="vrl">VRL Logistics</option>
-  <option value="safexpress">Safexpress</option>
-  <option value="mahindra">Mahindra Logistics</option>
-  <option value="gati">Gati</option>
-</select>
+  <select id="courier">
+    <option value="delhivery">Delhivery</option>
+    <option value="bluedart">Blue Dart</option>
+    <option value="dtdc">DTDC</option>
+    <option value="ekart">Ekart</option>
+    <option value="xpressbees">XpressBees</option>
+    <option value="dhl">DHL</option>
+    <option value="fedex">FedEx</option>
+    <option value="ups">UPS</option>
+    <option value="trackon">Trackon</option>
+    <option value="tci_express">TCI Express</option>
+    <option value="tci_freight">TCI Freight</option>
+    <option value="avinash_cargo">Avinash Cargo Pvt Ltd</option>
+    <option value="st_courier">ST Courier</option>
+    <option value="shree_maruti">Shree Maruti</option>
+    <option value="mark_express">Mark Express</option>
+    <option value="shree_nandawana">Shree Nandawana Transport</option>
+    <option value="shadowfax">Shadowfax</option>
+    <option value="allcargo">Allcargo Logistics</option>
+    <option value="navata">Navata Road Transport</option>
+    <option value="agarwal_packers">Agarwal Packers and Movers</option>
+    <option value="vrl">VRL Logistics</option>
+    <option value="safexpress">Safexpress</option>
+    <option value="mahindra">Mahindra Logistics</option>
+    <option value="gati">Gati</option>
+  </select>
 
-<br><br>
-<input type="text" id="tracking" placeholder="Enter Tracking Number" style="padding:10px; width:250px;">
-<br><br>
-<button onclick="track()">Track</button>
+  <br>
+  <input type="text" id="tracking" placeholder="Enter Tracking Number" style="width:300px;">
+  <br>
+  <button onclick="track()">Track</button>
 
-<div id="result" style="margin-top:20px;"></div>
+  <script>
+    const courierUrls = {
+      delhivery: tracking => `https://track.delhivery.com/?awb=${tracking}`,
+      bluedart: tracking => `https://www.bluedart.com/tracking?cn=${tracking}`,
+      dtdc: tracking => `https://www.dtdc.com/tracking-details.aspx?cn=${tracking}`,
+      ekart: tracking => `https://www.ekartlogistics.com/track/${tracking}`,
+      xpressbees: tracking => `https://www.xpressbees.com/track?awb=${tracking}`,
+      dhl: tracking => `https://www.dhl.com/en/express/tracking.html?AWB=${tracking}`,
+      fedex: tracking => `https://www.fedex.com/apps/fedextrack/?tracknumbers=${tracking}`,
+      ups: tracking => `https://www.ups.com/track?tracknum=${tracking}`,
+      trackon: tracking => `https://trackon.in/track?awb=${tracking}`,
+      tci_express: tracking => `https://tciexpress.in/track?awb=${tracking}`,
+      tci_freight: tracking => `https://tcifreight.com/track?awb=${tracking}`,
+      avinash_cargo: tracking => `https://avinashcargo.in/track?awb=${tracking}`,
+      st_courier: tracking => `https://stcourier.in/track?awb=${tracking}`,
+      shree_maruti: tracking => `https://shreemarutitransport.com/track?awb=${tracking}`,
+      mark_express: tracking => `https://markexpress.in/track?awb=${tracking}`,
+      shree_nandawana: tracking => `https://shreenandawana.com/track?awb=${tracking}`,
+      shadowfax: tracking => `https://www.shadowfax.in/track?awb=${tracking}`,
+      allcargo: tracking => `https://allcargologistics.in/track?awb=${tracking}`,
+      navata: tracking => `https://www.navataroadways.com/track?awb=${tracking}`,
+      agarwal_packers: tracking => `https://agarwalpackersandmovers.in/track?awb=${tracking}`,
+      vrl: tracking => `https://vrlgroup.in/track?awb=${tracking}`,
+      safexpress: tracking => `https://www.safexpress.com/track?awb=${tracking}`,
+      mahindra: tracking => `https://mahindralogistics.com/track?awb=${tracking}`,
+      gati: tracking => `https://www.gati.com/track?awb=${tracking}`,
+    };
 
-<script>
-async function track() {
-  const courier = document.getElementById('courier').value;
-  const tracking = document.getElementById('tracking').value.trim();
+    function track() {
+      const courier = document.getElementById('courier').value;
+      const tracking = document.getElementById('tracking').value.trim();
 
-  if (!tracking) return alert("Please enter a tracking number.");
+      if (!tracking) {
+        alert('Please enter a tracking number.');
+        return;
+      }
 
-  const res = await fetch(`/api/track?courier=${courier}&tracking=${tracking}`);
-  const data = await res.json();
-
-  if (data.error) {
-    document.getElementById('result').innerHTML = `<p style="color:red">${data.error}</p>`;
-  } else {
-    document.getElementById('result').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
-  }
-}
-</script>
+      if (courierUrls[courier]) {
+        const url = courierUrls[courier](encodeURIComponent(tracking));
+        window.location.href = url;
+      } else {
+        alert('Sorry, tracking for this courier is not supported yet.');
+      }
+    }
+  </script>
 
 </body>
 </html>
