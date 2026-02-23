@@ -1,42 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Courier Tracking Portal</title>
-  <meta name="description" content="Track your Delhivery, Blue Dart, DTDC and other courier shipments easily.">
+  <title>Multi-Courier Tracking Portal</title>
+  <meta name="description" content="Track Delhivery, Blue Dart, DTDC, Ekart, XpressBees, DHL and more courier shipments online.">
 </head>
 <body style="font-family: Arial; text-align:center; padding:40px;">
 
-<h1>Track Your Courier</h1>
+<h1>Multi-Courier Tracking Portal</h1>
+<p>Select your courier and enter tracking number:</p>
 
-<select id="carrier">
+<select id="courier">
   <option value="delhivery">Delhivery</option>
   <option value="bluedart">Blue Dart</option>
   <option value="dtdc">DTDC</option>
+  <option value="ekart">Ekart</option>
+  <option value="xpressbees">XpressBees</option>
+  <option value="dhl">DHL</option>
+  <option value="fedex">FedEx</option>
+  <option value="ups">UPS</option>
+  <option value="trackon">Trackon</option>
+  <option value="tci_express">TCI Express</option>
+  <option value="tci_freight">TCI Freight</option>
+  <option value="avinash_cargo">Avinash Cargo Pvt Ltd</option>
+  <option value="st_courier">ST Courier</option>
+  <option value="shree_maruti">Shree Maruti</option>
+  <option value="mark_express">Mark Express</option>
+  <option value="shree_nandawana">Shree Nandawana Transport</option>
+  <option value="shadowfax">Shadowfax</option>
+  <option value="allcargo">Allcargo Logistics</option>
+  <option value="navata">Navata Road Transport</option>
+  <option value="agarwal_packers">Agarwal Packers and Movers</option>
+  <option value="vrl">VRL Logistics</option>
+  <option value="safexpress">Safexpress</option>
+  <option value="mahindra">Mahindra Logistics</option>
+  <option value="gati">Gati</option>
 </select>
 
 <br><br>
-
 <input type="text" id="tracking" placeholder="Enter Tracking Number" style="padding:10px; width:250px;">
-
 <br><br>
+<button onclick="track()">Track</button>
 
-<button onclick="track()" style="padding:10px 20px;">Track</button>
+<div id="result" style="margin-top:20px;"></div>
 
 <script>
-function track() {
-  var carrier = document.getElementById("carrier").value;
-  var tracking = document.getElementById("tracking").value;
+async function track() {
+  const courier = document.getElementById('courier').value;
+  const tracking = document.getElementById('tracking').value.trim();
 
-  if(carrier === "delhivery") {
-    window.open("https://www.delhivery.com/track/package/" + tracking);
-  }
+  if (!tracking) return alert("Please enter a tracking number.");
 
-  if(carrier === "bluedart") {
-    window.open("https://www.bluedart.com/tracking?tracking_number=" + tracking);
-  }
+  const res = await fetch(`/api/track?courier=${courier}&tracking=${tracking}`);
+  const data = await res.json();
 
-  if(carrier === "dtdc") {
-    window.open("https://www.dtdc.in/tracking/tracking_results.asp?strCnno=" + tracking);
+  if (data.error) {
+    document.getElementById('result').innerHTML = `<p style="color:red">${data.error}</p>`;
+  } else {
+    document.getElementById('result').innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
   }
 }
 </script>
